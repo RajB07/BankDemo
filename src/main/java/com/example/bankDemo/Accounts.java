@@ -103,6 +103,6 @@ public class Accounts {
 
     public void updateCreditBalance(double balance,double creditAmount) {
         double currBalance = balance + creditAmount;
-        System.out.println("After withdrawal your balance is : " + currBalance);
+        System.out.println("After crediting money, your balance is : " + currBalance);
     }
 }

@@ -120,8 +120,15 @@ public class Main {
                     break;
 
                 case 3:
-                        sc.nextLine();
-
+                    sc.nextLine();
+                    System.out.println("Enter the Account Number to credit money");
+                    String acctNum = sc.nextLine();
+                    Accounts acc = getAccObj(acctNum);
+                    if(acc==null){
+                        System.out.println("No such acc num exists");
+                        break;
+                    }
+                    credit(acc,sc);
 
                         break;
 
@@ -262,6 +269,11 @@ public class Main {
                     accounts.add(termDeposit);
                     System.out.println("Customer's new Account with Account Number " + acctId + " is created on " + currDateTime);
                     System.out.println("Current Balance is " + balance);
+                    System.out.println("Please credit money and forget about it till your term comes");
+                    double balance1 = termDeposit.getBalance();
+                    System.out.println("Enter amount to credit");
+                    double creditAmount = sc.nextDouble();
+                    termDeposit.updateCreditBalance(balance1, creditAmount);
                     break;
                 }
         }
@@ -372,13 +384,19 @@ public class Main {
         }
     }
 
-    private static void credit(Accounts accounts,Scanner sc){
-        double balance = accounts.getBalance();
-        System.out.println("Enter amount to withdraw");
-        double creditAmount = sc.nextDouble();
-        accounts.updateCreditBalance(balance,creditAmount);
+    private static void credit(Accounts accounts,Scanner sc) {
+
+            if(accounts.getAccountType()=="TermDeposit") {
+                System.out.println("You cannot credit money again");
+            }
+            else {
+                double balance = accounts.getBalance();
+                System.out.println("Enter amount to credit");
+                double creditAmount = sc.nextDouble();
+                accounts.updateCreditBalance(balance, creditAmount);
+            }
+        }
     }
 
 
 
-}
