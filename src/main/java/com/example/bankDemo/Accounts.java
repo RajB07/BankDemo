@@ -20,9 +20,11 @@ public class Accounts {
         this.interest = interest;
         this.balance = balance;
         this.accountNumber = accountNumber;
-        this.customers = new ArrayList<>();
+        this.customers = new ArrayList<Customer>();
         this.timeStamp = new Date();
         this.accountType = accountType;
+        this.addCustomer(customer);
+        customer.addAccount(this);
     }
     public Accounts(double balance, String accountNumber, Date timeStamp, Customer customer,String accountType, double interest) {
         this.balance = balance;

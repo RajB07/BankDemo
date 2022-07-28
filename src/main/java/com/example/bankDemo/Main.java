@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 
 public class Main {
@@ -92,6 +93,7 @@ public class Main {
             System.out.println("6) Show Details of ACCOUNT");
             System.out.println("7) Link Customer and Accounts");
             System.out.println("8) ADD INTEREST IN ALL ACCTS");
+            System.out.println("9) Back to menu ");
             do{
                  choice = sc.nextInt();
                 switch (choice) {
@@ -143,7 +145,7 @@ public class Main {
                         break;
                     }
                     withDraw(acc1,sc);
-
+                    break;
 
                 case 5:
                     sc.nextLine();
@@ -180,10 +182,15 @@ public class Main {
                    Accounts accLink = getAccObj(acctId);
                    Customer cusLink = getCustObj(uuid);
                    linkAccount(accLink,cusLink);
+
                    break;
 
                case 8:
                    addInterestInAllAccounts();
+                   break;
+
+               case 9:
+                   mainMenuPrompt(sc);
                    break;
             }
         } while (choice < 1 || choice > 8);
@@ -213,7 +220,9 @@ public class Main {
                 if (a == null) {
                     System.out.println("User has no accounts");
                 }
-                System.out.println("The customer has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
+
+System.out.println("The customer has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
+
             }
             return;
             // System.out.println("User not found");
@@ -275,9 +284,11 @@ public class Main {
             case 2:
 
                 sc.nextLine();
+                Customer customer1;
+                String uuid1;
                 System.out.println("Term Deposit chosen");
                 System.out.println("Enter Customer ID to continue");
-                String uuid1=sc.nextLine();
+                uuid1=sc.nextLine();
 
                 System.out.println("Enter the term");
                 double term = sc.nextInt();
@@ -292,14 +303,14 @@ public class Main {
                 else {
                     interest = 0.00;
                 }
-                customer = getCustObj(uuid1);
-                if(customer==null){
+                customer1 = getCustObj(uuid1);
+                if(customer1==null){
                     System.out.println("There is no account");
                 }
               else {
                     System.out.println("Enter initial balance");
                     balance = sc.nextDouble();
-                    Accounts termDeposit = new TermDeposit(balance,term,interest,acctId, currDateTime, customer, "TermDeposit");
+                    Accounts termDeposit = new TermDeposit(balance,term,interest,acctId, currDateTime, customer1, "TermDeposit");
                     System.out.println("Term chosen : "+term+" and interest is "+interest);
                     accounts.add(termDeposit);
                     System.out.println("Customer's new Account with Account Number " + acctId + " is created on " + currDateTime);
@@ -358,6 +369,14 @@ public class Main {
                 for (Customer c: customer)
                 {
                     System.out.println("The account holder name is "+ c.getName()+" and id is "+c.getUuid());
+                    System.out.println("The customer "+c.getName() +" has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
+
+                }
+                for (Accounts a1 : accounts) {
+                    if (a1 == null) {
+                        System.out.println("User has no accounts");
+                    }
+
 
                 }
               //  System.out.println(customer);
@@ -393,39 +412,52 @@ public class Main {
         System.out.println("Accounts are linked");
     }
 
-    private static void withDraw(Accounts accounts, Scanner sc){
+    private static void withDraw(Accounts accounts, Scanner sc) {
 
-        System.out.println("Enter the Account Number from which you want to withdraw");
-        String acctNum = sc.nextLine();
+//        System.out.println("Enter the Account Number from which you want to withdraw");
+//        String acctNum = sc.nextLine();
         double balance = accounts.getBalance();
-        System.out.println("Enter amount to withdraw");
-        double withdrawAmount = sc.nextDouble();
 
-    //    accounts.updateWithdrawalBalance(balance,withdrawAmount);
-       // double currBalance = balance - withdrawAmount;
 
-        if(accounts.getAccountType()=="Savings"){
+        //    accounts.updateWithdrawalBalance(balance,withdrawAmount);
+        // double currBalance = balance - withdrawAmount;
 
-            System.out.println("You can withdraw now");
+        if (accounts.getAccountType() == "Savings") {
+            System.out.println("Enter amount to withdraw");
+            double withdrawAmount = sc.nextDouble();
+            if (accounts.getBalance() > 0 && withdrawAmount <accounts.getBalance() ) {
+                System.out.println("You can withdraw now");
 
-            accounts.updateWithdrawalBalance(withdrawAmount);
+                accounts.updateWithdrawalBalance(withdrawAmount);
+                return;
+            }
+            else{
+                System.out.println("No Balance");
+            }
         }
+        if (accounts.getAccountType() == "TermDeposit") {
+//            if(accounts.term <=1 ){
+//                System.out.println("5% INTEREST WILL BE CHARGED");
+//
+//            }
+//            if( accounts.term>=1 &&  accounts.term<=5){
+//                System.out.println("6% INTEREST WILL BE CHARGED");
+//            }
+//            if(accounts.term> 5){
+//                System.out.println("6.5% INTEREST WILL BE CHARGED");
+//            }
+            long diff = accounts.getTimeStamp().getTime() - new Date().getTime();
 
-        if(accounts.getAccountType()=="Term Deposit"){
-            if(accounts.term <=1 ){
-                System.out.println("5% INTEREST WILL BE CHARGED");
-
+            long days = TimeUnit.MILLISECONDS.toDays(diff);
+            if (days < 365) {
+                System.out.println("You cannot withdraw money until term ends.");
+            } else {
+                System.out.println("Enter amount to withdraw");
+                double withdrawAmount = sc.nextDouble();
+                accounts.updateWithdrawalBalance(withdrawAmount);
             }
-            if( accounts.term>=1 &&  accounts.term<=5){
-                System.out.println("6% INTEREST WILL BE CHARGED");
-            }
-            if(accounts.term> 5){
-                System.out.println("6.5% INTEREST WILL BE CHARGED");
-            }
-
         }
     }
-
     private static void credit(Accounts accounts,Scanner sc) {
 
             if(accounts.getAccountType()=="TermDeposit") {
@@ -441,7 +473,6 @@ public class Main {
                 accounts.setBalance(currBal);
             }
         }
-
 
     private static double calculateSavingsInterest(Accounts a,Scanner sc) {
 
