@@ -7,12 +7,13 @@ import java.util.Scanner;
 
 public class Accounts {
     int term;
-    private double balance;
+    private double balance=0.00;
     private String accountNumber;
     private ArrayList<Customer> customers;
     private String timeStamp;
     private String accountType;
 
+  //  private Customer holder;
     public Accounts(int term, double balance, String accountNumber, ArrayList<Customer> customers, String timeStamp, String accountType) {
         this.term = term;
         this.balance = balance;
@@ -28,8 +29,9 @@ public class Accounts {
         this.timeStamp = timeStamp;
         this.accountType = accountType;
 
-        customer.addAccount(this);
+//        customers.add(customer);
         this.addCustomer(customer);
+        customer.addAccount(this);
     }
 
     public String getAccountType() {
@@ -89,7 +91,7 @@ public class Accounts {
         return "Accounts{" +
                 "balance=" + balance +
                 ", accountNumber='" + accountNumber + '\'' +
-
+                ", customers'" + customers + '\'' +
                 ", timeStamp=" + timeStamp +
                 '}';
     }

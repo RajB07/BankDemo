@@ -69,7 +69,7 @@ public class Customer {
         return "Customer{" +
                 "name='" + name + '\'' +
                 ", phoneNum='" + phoneNum + '\'' +
-                ", Accounts='" + accounts + '\'' +
+               // ", Accounts='" + accounts + '\'' +
                 ", emailId='" + emailId + '\'' +
                 ", uuid='" + uuid + '\'' +
                 '}';
