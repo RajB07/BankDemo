@@ -4,31 +4,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Accounts {
-    int term;
-    private double balance=0.00;
+    double term;
+   private  double balance;
     private String accountNumber;
     private ArrayList<Customer> customers;
-    private String timeStamp;
+    private Date timeStamp;
     private String accountType;
-
+    private double interest;
   //  private Customer holder;
-    public Accounts(int term, double balance, String accountNumber, ArrayList<Customer> customers, String timeStamp, String accountType) {
+    public Accounts(double balance, double term, double interest,String accountNumber, Date timeStamp,Customer customer, String accountType) {
         this.term = term;
+        this.interest = interest;
         this.balance = balance;
         this.accountNumber = accountNumber;
-        this.customers = customers;
-        this.timeStamp = timeStamp;
+        this.customers = new ArrayList<>();
+        this.timeStamp = new Date();
         this.accountType = accountType;
     }
-    public Accounts(double balance, String accountNumber, String timeStamp, Customer customer,String accountType) {
+    public Accounts(double balance, String accountNumber, Date timeStamp, Customer customer,String accountType, double interest) {
         this.balance = balance;
         this.accountNumber = accountNumber;
         this.customers = new ArrayList<Customer>();
-        this.timeStamp = timeStamp;
+        this.timeStamp = new Date();
         this.accountType = accountType;
-
+        this.interest = interest;
 //        customers.add(customer);
         this.addCustomer(customer);
         customer.addAccount(this);
@@ -42,11 +44,23 @@ public class Accounts {
         this.accountType = accountType;
     }
 
-    public int getTerm() {
+//    public double getTerm() {
+//        return term;
+//    }
+
+    public double getTerm() {
         return term;
     }
 
-    public void setTerm(int term) {
+    public double getInterest() {
+        return interest;
+    }
+
+    public void setInterest(double interest) {
+        this.interest = interest;
+    }
+
+    public void setTerm(double term) {
         this.term = term;
     }
 
@@ -60,6 +74,7 @@ public class Accounts {
 
     public void setBalance(double balance) {
         this.balance = balance;
+        System.out.println("After crediting money, your balance is : " + this.balance);
     }
 
     public String getAccountNumber() {
@@ -78,11 +93,11 @@ public class Accounts {
         this.customers = customers;
     }
 
-    public String getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -96,13 +111,29 @@ public class Accounts {
                 '}';
     }
 
-    public void updateWithdrawalBalance(double balance, double withdrawAmount) {
-        double currBalance = balance-withdrawAmount;
-        System.out.println("After withdrawal your balance is : "+currBalance);
+    public void updateWithdrawalBalance(double withdrawAmount) {
+        //double currBalance = balance-withdrawAmount;
+        this.balance -= withdrawAmount;
+        System.out.println("After withdrawal your balance is : "+this.balance);
     }
 
-    public void updateCreditBalance(double balance,double creditAmount) {
+    public double updateCreditBalance(double balance,double creditAmount) {
+
         double currBalance = balance + creditAmount;
-        System.out.println("After crediting money, your balance is : " + currBalance);
+        return currBalance;
+    }
+
+    public void addInterest() {
+        long diff = timeStamp.getTime() - new Date().getTime();
+
+        long days = TimeUnit.MILLISECONDS.toDays(diff);
+        if(days>365) {
+            balance = balance + (balance * interest);
+
+            System.out.println(accountNumber + " " + balance);
+        }
+        else {
+            System.out.println("Cannot add interest ");
+        }
     }
 }

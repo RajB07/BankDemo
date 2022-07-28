@@ -2,6 +2,7 @@ package com.example.bankDemo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -90,6 +91,7 @@ public class Main {
             System.out.println("5) Show Details of CUSTOMER");
             System.out.println("6) Show Details of ACCOUNT");
             System.out.println("7) Link Customer and Accounts");
+            System.out.println("8) ADD INTEREST IN ALL ACCTS");
             do{
                  choice = sc.nextInt();
                 switch (choice) {
@@ -114,8 +116,8 @@ public class Main {
                     System.out.println("Welcome to create Acc");
                     double balance;
                     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    Date date = new Date();
-                    String currDateTime = dateFormat.format(date);
+                    Date currDateTime = new Date();
+                   // Date currDateTime = dateFormat.format(date);
                     createAccount(currDateTime);
                     break;
 
@@ -129,8 +131,18 @@ public class Main {
                         break;
                     }
                     credit(acc,sc);
+                    break;
 
+                case 4:
+                    sc.nextLine();
+                    System.out.println("Enter the Account Number from which you want to withdraw money");
+                    String accNum = sc.nextLine();
+                    Accounts acc1 = getAccObj(accNum);
+                    if(acc1==null){
+                        System.out.println("No such acc num exists");
                         break;
+                    }
+                    withDraw(acc1,sc);
 
 
                 case 5:
@@ -148,13 +160,13 @@ public class Main {
                 case 6:
                     sc.nextLine();
                     System.out.println("Enter Account number to get details");
-                    String accNum = sc.nextLine();
-                    Accounts a = getAccObj(accNum);
+                    String accNum1 = sc.nextLine();
+                    Accounts a = getAccObj(accNum1);
                     if(a==null){
                         System.out.println("No such acc num exists");
                         break;
                     }
-                    getAccountDetails(accNum,a);
+                    getAccountDetails(accNum1,a);
                     break;
 
                 case 7:
@@ -169,8 +181,12 @@ public class Main {
                    Customer cusLink = getCustObj(uuid);
                    linkAccount(accLink,cusLink);
                    break;
+
+               case 8:
+                   addInterestInAllAccounts();
+                   break;
             }
-        } while (choice < 1 || choice > 7);
+        } while (choice < 1 || choice > 8);
 
         return true;
     }
@@ -228,7 +244,7 @@ public class Main {
         return id;
     }
 
-    private static void createAccount(String currDateTime){
+    private static void createAccount(Date currDateTime){
 
         String acctId = getUniqueAccountId();
         double balance = 0;
@@ -239,6 +255,7 @@ public class Main {
         int choice = sc.nextInt() ;
         switch (choice){
             case 1 :
+
                 sc.nextLine();
                 String uuid;
                 Customer customer;
@@ -249,31 +266,54 @@ public class Main {
                 if(customer==null){
                     System.out.println("There is no account");
                 }
-                Accounts savings = new Savings(balance,acctId,currDateTime,customer,"Savings");
+                Accounts savings = new Savings(balance,acctId,currDateTime,customer,"Savings",0.03 );
                 accounts.add(savings);
                 //System.out.println("Account with Account Number: "+acctId +" created on "+currDateTime);
                 System.out.println("Customer's new account with Account Number "+ acctId + " is created on "+ currDateTime);
-                System.out.println("Current Balance is "+balance);
+
                 break;
             case 2:
+
                 sc.nextLine();
                 System.out.println("Term Deposit chosen");
                 System.out.println("Enter Customer ID to continue");
                 String uuid1=sc.nextLine();
+
+                System.out.println("Enter the term");
+                double term = sc.nextInt();
+                double interest;
+                if (term >= 0 && term <= 1) {
+                    interest = 0.05;
+                } else if (term >= 1 && term <= 5) {
+                    interest = 0.06;
+                } else if (term > 5) {
+                    interest = 0.065;
+                }
+                else {
+                    interest = 0.00;
+                }
                 customer = getCustObj(uuid1);
                 if(customer==null){
                     System.out.println("There is no account");
                 }
               else {
-                    Accounts termDeposit = new TermDeposit(balance, acctId, currDateTime, customer, "TermDeposit");
+                    System.out.println("Enter initial balance");
+                    balance = sc.nextDouble();
+                    Accounts termDeposit = new TermDeposit(balance,term,interest,acctId, currDateTime, customer, "TermDeposit");
+                    System.out.println("Term chosen : "+term+" and interest is "+interest);
                     accounts.add(termDeposit);
                     System.out.println("Customer's new Account with Account Number " + acctId + " is created on " + currDateTime);
                     System.out.println("Current Balance is " + balance);
-                    System.out.println("Please credit money and forget about it till your term comes");
-                    double balance1 = termDeposit.getBalance();
-                    System.out.println("Enter amount to credit");
-                    double creditAmount = sc.nextDouble();
-                    termDeposit.updateCreditBalance(balance1, creditAmount);
+//                    System.out.println("Please credit money and forget about it till your term comes");
+//                    System.out.println("Enter amount to credit");
+//                    double creditAmount = sc.nextDouble();
+
+               //     double balance1 = calculateTermDepositInterest(termDeposit);
+//                    if(balance1!=0) {
+//                        double b = termDeposit.updateCreditBalance(balance1, creditAmount);
+//                        termDeposit.setBalance(b);
+//                    }
+
                     break;
                 }
         }
@@ -365,8 +405,10 @@ public class Main {
        // double currBalance = balance - withdrawAmount;
 
         if(accounts.getAccountType()=="Savings"){
+
             System.out.println("You can withdraw now");
-            accounts.updateWithdrawalBalance(balance,withdrawAmount);
+
+            accounts.updateWithdrawalBalance(withdrawAmount);
         }
 
         if(accounts.getAccountType()=="Term Deposit"){
@@ -390,13 +432,77 @@ public class Main {
                 System.out.println("You cannot credit money again");
             }
             else {
-                double balance = accounts.getBalance();
+
+                //double balance = calculateSavingsInterest(accounts,sc);
+               // System.out.println("Balance after interest "+balance);
                 System.out.println("Enter amount to credit");
                 double creditAmount = sc.nextDouble();
-                accounts.updateCreditBalance(balance, creditAmount);
+                double currBal = accounts.updateCreditBalance(accounts.getBalance(), creditAmount);
+                accounts.setBalance(currBal);
             }
         }
+
+
+    private static double calculateSavingsInterest(Accounts a,Scanner sc) {
+
+        Date date = new Date();
+        double balanceAfterInterest;
+        // for(Accounts acct : accounts) {
+        long diff = date.getTime() - a.getTimeStamp().getTime();
+        if (diff < 2) {
+            System.out.println("Balance would remain same. No interest " + a.getBalance());
+            return a.getBalance();
+        } else {
+            double interest = 0.03;
+            double balance = a.getBalance();
+            System.out.println("Balance before interest " + balance);
+            balanceAfterInterest = balance + (balance * interest);
+            System.out.println("Balance after interest " + balanceAfterInterest);
+
+            return balanceAfterInterest;
+        }
     }
+
+    private static double calculateTermDepositInterest(Accounts termDeposit){
+
+        Date date = new Date();
+        long diff = date.getTime() - termDeposit.getTimeStamp().getTime();
+        System.out.println(diff);
+        System.out.println(termDeposit.getBalance());
+        System.out.println(termDeposit.getInterest());
+        System.out.println(termDeposit.getTerm());
+        if(diff >= termDeposit.getTerm()){
+            termDeposit.setBalance(termDeposit.getBalance() + (termDeposit.getBalance() * termDeposit.getInterest()) );
+        }
+       else{
+            System.out.println("you cannot avail interest");
+        }
+        return termDeposit.getBalance();
+    }
+
+//    private static double calculateInterest(Accounts a,double interest){
+//        double balanceAfterInterest;
+//        double balance = a.getBalance();
+//        System.out.println("Balance before interest " + balance);
+//        balanceAfterInterest = balance + (balance * interest);
+//        System.out.println("Balance after interest " + balanceAfterInterest);
+//
+//        return balanceAfterInterest;
+//
+//    }
+
+    private  static  void addInterestInAllAccounts(){
+
+        for(Accounts a : accounts){
+            a.addInterest();
+        }
+    }
+
+}
+
+
+
+
 
 
 
