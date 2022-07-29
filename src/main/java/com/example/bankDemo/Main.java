@@ -211,6 +211,8 @@ public class Main {
     //Fetch details using ID , hence only ID is passed as parameter
 
     private static void getCustomerDetails(String id,Customer customer) {
+
+
         //for (Customer c: customers){
         if (id.compareTo(customer.getUuid()) == 0) {
             System.out.println("The name of customer is " + customer.getName() + " with ID " + customer.getUuid()
@@ -221,7 +223,7 @@ public class Main {
                     System.out.println("User has no accounts");
                 }
 
-System.out.println("The customer has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
+    System.out.println("The customer has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
 
             }
             return;
