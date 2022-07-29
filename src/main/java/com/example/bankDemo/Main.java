@@ -156,7 +156,7 @@ public class Main {
                         System.out.println("Customer ID DOES NOT EXIST");
                         break;
                     }
-                    getCustomerDetails(id,c);
+                    getCustomerDetails(id);
                     break;
 
                 case 6:
@@ -210,25 +210,39 @@ public class Main {
 
     //Fetch details using ID , hence only ID is passed as parameter
 
-    private static void getCustomerDetails(String id,Customer customer) {
+    private static void getCustomerDetails(String id) {
 
+        Customer customer = getCustObj(id);
+        System.out.println("The name of customer is " + customer.getName() + " with ID " + customer.getUuid());
 
-        //for (Customer c: customers){
-        if (id.compareTo(customer.getUuid()) == 0) {
-            System.out.println("The name of customer is " + customer.getName() + " with ID " + customer.getUuid()
-                    + " and has email id " + customer.getEmailId());
-            // }
-            for (Accounts a : accounts) {
+      //  System.out.println("");
+        ArrayList<Accounts> accounts = customer.getAccounts();
+        for (Accounts a : accounts) {
                 if (a == null) {
                     System.out.println("User has no accounts");
                 }
-
-    System.out.println("The customer has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
-
+        System.out.println("The customer has account number " + a.getAccountNumber()
+            + " and has " + a.getAccountType() + " account with balance "
+            + a.getBalance());
             }
             return;
-            // System.out.println("User not found");
-        }
+        //for (Customer c: customers){
+//        if (id.compareTo(customer.getUuid()) == 0) {
+//            System.out.println("The name of customer is " + customer.getName() + " with ID " + customer.getUuid()
+//                    + " and has email id " + customer.getEmailId());
+//            // }
+//            for (Accounts a : accounts) {
+//                if (a == null) {
+//                    System.out.println("User has no accounts");
+//                }
+//
+//
+//                System.out.println("The customer has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
+//
+//            }
+//            return;
+//            // System.out.println("User not found");
+//        }
     }
     private static String getUniqueCustomerid() {
         String id;

@@ -75,6 +75,9 @@ public class Customer {
                 '}';
     }
 
+//    public ArrayList<Accounts> getAccountRelatedToCustomer(String uuid){
+//
+//    }
 
 
 }
