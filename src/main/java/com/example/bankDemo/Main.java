@@ -21,30 +21,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         Customer c = createCustomer("Raj","982912","test@test");
-       // Customer c1;
-//        Customer c1 = createCustomer("Aftab","9821","test@test1");
-//
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//        Date date = new Date();
-//        String currDateTime = dateFormat.format(date);
-       // Accounts a = createAccount(currDateTime, c);
-     //   Savings savings = new Savings(0,"1","2",c,"savings");
-        //System.out.println(savings.getClass().getName());
-//        for(Accounts c2: accounts){
-//            System.out.println(c2);
-//        }
-//        System.out.println("Enter uuid to link");
-//        String uuid = sc.nextLine();
-//        System.out.println("Enter acc num to link");
-//        String acctId =sc.nextLine();
-//
-//        Accounts accLink = getAccObj(acctId);
-//        Customer cusLink = getCustObj(uuid);
-//        linkAccount(accLink,cusLink);
-//        System.out.println(customers);
-//        System.out.println(accounts);
-//
-//        System.out.println(accounts.getClass().getName());
+
 
         boolean loop = true;
         while(loop){
@@ -52,31 +29,7 @@ public class Main {
 
         }
 
-     //   a.linkAccountToCustomer(c,a,sc);
-//        System.out.println(a);
-       // System.out.println(c);
-//        System.out.println(c1);
-//
-//        System.out.println("Enter Account Number of account and UUID to link them");
-//        System.out.println("**********************");
-//        System.out.println("Enter ID");
-//        String inputUuid = sc.nextLine();
-//        System.out.println("Enter Acc num");
-//
-//        Accounts temp = ;
-//        Customer tempCustomer=
-//
-//        String inputAccountNumber = sc.nextLine();
-//        String uuid = c.getUuid();
-//        String accountNumber = a.getAccountNumber();
-//
-//       a.linkAccountToCustomer();
-//
-//        System.out.println("Enter ID of account to be fetched");
-//        String id = sc.nextLine();
-//        getCustomerDetails(id);
-        // Customer c = new Customer("Raj","982912","test@test","000001");
-      //  Bank bank = new Bank(new ArrayList<>(), new ArrayList<>());
+
     }
 
     private static boolean mainMenuPrompt(Scanner sc) {
@@ -93,6 +46,7 @@ public class Main {
             System.out.println("6) Show Details of ACCOUNT");
             System.out.println("7) Link Customer and Accounts");
             System.out.println("8) ADD INTEREST IN ALL ACCTS");
+
             System.out.println("9) Back to menu ");
             do{
                  choice = sc.nextInt();
@@ -226,23 +180,7 @@ public class Main {
             + a.getBalance());
             }
             return;
-        //for (Customer c: customers){
-//        if (id.compareTo(customer.getUuid()) == 0) {
-//            System.out.println("The name of customer is " + customer.getName() + " with ID " + customer.getUuid()
-//                    + " and has email id " + customer.getEmailId());
-//            // }
-//            for (Accounts a : accounts) {
-//                if (a == null) {
-//                    System.out.println("User has no accounts");
-//                }
-//
-//
-//                System.out.println("The customer has account number " + a.getAccountNumber() + " and has " + a.getAccountType() + " account with balance " + a.getBalance());
-//
-//            }
-//            return;
-//            // System.out.println("User not found");
-//        }
+
     }
     private static String getUniqueCustomerid() {
         String id;
@@ -317,7 +255,7 @@ public class Main {
                     interest = 0.065;
                 }
                 else {
-                    interest = 0.00;
+                    interest = 0.00; // as we have put this else , we wont get interest not initialized error.
                 }
                 customer1 = getCustObj(uuid1);
                 if(customer1==null){
@@ -331,25 +269,9 @@ public class Main {
                     accounts.add(termDeposit);
                     System.out.println("Customer's new Account with Account Number " + acctId + " is created on " + currDateTime);
                     System.out.println("Current Balance is " + balance);
-//                    System.out.println("Please credit money and forget about it till your term comes");
-//                    System.out.println("Enter amount to credit");
-//                    double creditAmount = sc.nextDouble();
-
-               //     double balance1 = calculateTermDepositInterest(termDeposit);
-//                    if(balance1!=0) {
-//                        double b = termDeposit.updateCreditBalance(balance1, creditAmount);
-//                        termDeposit.setBalance(b);
-//                    }
-
                     break;
                 }
         }
-//        Accounts account = new Accounts(balance,acctId,currDateTime, customer,"Savings");
-//        accounts.add(account);
-
-
-
-        //return account;
     }
 
     private static String getUniqueAccountId() {
@@ -378,7 +300,6 @@ public class Main {
 
     private static void getAccountDetails(String acctNum, Accounts a){
 
-       // for (Accounts a: accounts){
             if(acctNum.compareTo(a.getAccountNumber()) == 0){
                 ArrayList<Customer> customer = a.getCustomers();
                 System.out.println("Account number is "+ acctNum +" Type of acc is "+a.getAccountType());
@@ -393,13 +314,8 @@ public class Main {
                         System.out.println("User has no accounts");
                     }
 
-
                 }
-              //  System.out.println(customer);
             }
-       // }
-       // System.out.println("User not found");
-
     }
     private static Accounts getAccObj(String acctId){
 
@@ -430,13 +346,7 @@ public class Main {
 
     private static void withDraw(Accounts accounts, Scanner sc) {
 
-//        System.out.println("Enter the Account Number from which you want to withdraw");
-//        String acctNum = sc.nextLine();
         double balance = accounts.getBalance();
-
-
-        //    accounts.updateWithdrawalBalance(balance,withdrawAmount);
-        // double currBalance = balance - withdrawAmount;
 
         if (accounts.getAccountType() == "Savings") {
             System.out.println("Enter amount to withdraw");
@@ -452,16 +362,7 @@ public class Main {
             }
         }
         if (accounts.getAccountType() == "TermDeposit") {
-//            if(accounts.term <=1 ){
-//                System.out.println("5% INTEREST WILL BE CHARGED");
-//
-//            }
-//            if( accounts.term>=1 &&  accounts.term<=5){
-//                System.out.println("6% INTEREST WILL BE CHARGED");
-//            }
-//            if(accounts.term> 5){
-//                System.out.println("6.5% INTEREST WILL BE CHARGED");
-//            }
+
             long diff = accounts.getTimeStamp().getTime() - new Date().getTime();
 
             long days = TimeUnit.MILLISECONDS.toDays(diff);
@@ -481,12 +382,10 @@ public class Main {
             }
             else {
 
-                //double balance = calculateSavingsInterest(accounts,sc);
-               // System.out.println("Balance after interest "+balance);
                 System.out.println("Enter amount to credit");
                 double creditAmount = sc.nextDouble();
                 double currBal = accounts.updateCreditBalance(accounts.getBalance(), creditAmount);
-                accounts.setBalance(currBal);
+                accounts.setBalance(currBal); // redundant statement because you can setBalance in accounts class only!
             }
         }
 
@@ -526,17 +425,6 @@ public class Main {
         }
         return termDeposit.getBalance();
     }
-
-//    private static double calculateInterest(Accounts a,double interest){
-//        double balanceAfterInterest;
-//        double balance = a.getBalance();
-//        System.out.println("Balance before interest " + balance);
-//        balanceAfterInterest = balance + (balance * interest);
-//        System.out.println("Balance after interest " + balanceAfterInterest);
-//
-//        return balanceAfterInterest;
-//
-//    }
 
     private  static  void addInterestInAllAccounts(){
 

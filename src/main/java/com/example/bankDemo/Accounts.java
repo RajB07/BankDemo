@@ -23,7 +23,10 @@ public class Accounts {
         this.customers = new ArrayList<Customer>();
         this.timeStamp = new Date();
         this.accountType = accountType;
+   // Since acct is created using CustomerID, we have put addCustomer function here as ,when we create new acc(means new acc obj conceptually ),
+// then this constructor is called. Hence, when acc obj is created, we add customer to ArrayList<customers>
         this.addCustomer(customer);
+// When new acc is created(that is acc obj is created), we have to add this account to ArrayList<Accounts> in customer class.
         customer.addAccount(this);
     }
     public Accounts(double balance, String accountNumber, Date timeStamp, Customer customer,String accountType, double interest) {

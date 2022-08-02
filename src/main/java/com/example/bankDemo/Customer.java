@@ -24,41 +24,41 @@ public class Customer {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
-    }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getPhoneNum() {
+//        return phoneNum;
+//    }
+//
+//    public void setPhoneNum(String phoneNum) {
+//        this.phoneNum = phoneNum;
+//    }
+//
+//    public String getEmailId() {
+//        return emailId;
+//    }
+//
+//    public void setEmailId(String emailId) {
+//        this.emailId = emailId;
+//    }
 
     public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
+//    public void setUuid(String uuid) {
+//        this.uuid = uuid;
+//    }
 
     public ArrayList<Accounts> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(ArrayList<Accounts> accounts) {
-        this.accounts = accounts;
-    }
+//    public void setAccounts(ArrayList<Accounts> accounts) {
+//        this.accounts = accounts;
+//    }
 
     public void addAccount(Accounts account){
         this.accounts.add(account);

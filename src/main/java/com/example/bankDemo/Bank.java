@@ -12,9 +12,7 @@ public class Bank {
         this.accounts = accounts;
     }
 
-
-
-    public void addCustomer(Customer c, Scanner sc) {
-
-    }
+//    public void addCustomer(Customer c, Scanner sc) {
+//
+//    }
 }
